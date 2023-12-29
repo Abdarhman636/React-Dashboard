@@ -11,8 +11,18 @@ import {
   RouterProvider,
   Outlet,
 } from "react-router-dom";
+import SingleProduct from './pages/singleProduct/SingleProduct.tsx';
+import SingleUser from './pages/singleUser/SingleUser.tsx';
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from '@tanstack/react-query'
 
 const Layout = () => {
+
+  const queryClient = new QueryClient()
+
   return (
     <div className="main">
       <Navbar />
@@ -21,7 +31,9 @@ const Layout = () => {
           <Menu />
         </div>
         <div className="contentContainer">
-          <Outlet />
+          <QueryClientProvider client={queryClient}>
+            <Outlet />
+          </QueryClientProvider>
         </div>
       </div>
       <Footer />
@@ -45,6 +57,14 @@ const router = createBrowserRouter([
       {
         path: "/products",
         element: <Products />
+      },
+      {
+        path: "/user/:id",
+        element: <SingleUser />
+      },
+      {
+        path: "/product/:id",
+        element: <SingleProduct />
       },
     ]
   },
